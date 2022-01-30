@@ -1,0 +1,91 @@
+{% extends 'dashboard/base.html' %}
+{% block page_content %}
+
+<div class="col-xs-12">
+
+    <div class="row">
+
+      <!-- Left Vehicle Info -->
+      <div class="col-sm-4 col-md-3">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                  <a href="{% url 'vehicule_app:details' vehicle.id %}">
+                      {% if vehicle.v_logo %}
+                          <img src="{{ vehicle.v_logo.url }}" class="img-responsive">
+                      {% else %}
+                          <h3>No image to display</h3>
+                      {% endif %}
+                  </a>
+                  <h1>{{ vehicle.mark }}</h1>
+                  <h2>{{ vehicle.current_registration }} <small>{{ vehicle.v_type }}</small></h2>
+                  <h3>{{ vehicle.physical_state }}</h3>
+              </div>
+          </div>
+      </div>
+
+      <!-- Right container Info -->
+      <div class="col-sm-8 col-md-9">
+
+          <ul class="nav nav-pills" style="margin-bottom: 10px;">
+              <li role="presentation" class="active"><a href="{% url 'vehicule_app:details' vehicle.id %}">View All</a></li>
+              <li role="presentation"><a href="{% url 'vehicule_app:container-add' vehicle.id%}">Add New container</a></li>
+          </ul>
+          <div class="panel panel-default">
+              <div class="panel-body">
+
+                  <h3>All containers</h3>
+
+                  {% if error_message %}
+                      <p><strong>{{ error_message }}</strong></p>
+                  {% endif %}
+                  <div class="table-responsive" >
+                  <table class="table">
+                      <thead>
+                      <tr>
+                          <th>Referance</th>
+                          <th>Registration</th>
+                          <th>volume</th>
+                          <th>height</th>
+                          <th>width</th>
+                          <th>free_surface</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for container in vehicle.container_set.all %}
+                          <tr>
+                              <td>{{ container.container_ref }}</td>
+                              <td>{{ container.registration }}</td>
+                              <td>{{ container.volume }}</td>
+                              <td>{{ container.height }}</td>
+                              <td>{{ container.width }}</td>
+                              <td>{{ container.free_surface }}</td>
+                              <td>
+
+                                  <a href="{% url 'vehicule_app:container-update' container.id  %}" style="display: inline;">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="container_id" value="{{ container.id }}" />
+                                      <button type="submit" class="btn btn-success btn-xs">
+                                          <span class="glyphicon glyphicon-edit"></span>&nbsp; Edit
+                                      </button>
+                                  </a>
+
+                                  <a href="{% url 'vehicule_app:container-delete'  vehicle.id container.id  %}"  style="display: inline;">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="container_id" value="{{ container.id }}" />
+                                      <button type="submit" class="btn btn-danger btn-xs">
+                                          <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                      </button>
+                                  </a>
+                              </td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

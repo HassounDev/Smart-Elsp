@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+        Form Test
+    </title>
+  </head>
+  <body>
+    <form  method="GET">
+      {{ filter.form.as_p }}
+      <button type="submit" name="search">Search</button>
+    </form>
+    <ul>
+      {% for ct in filter.qs  %}
+        <li> {{ ct.id}} - {{ ct.line_number}}  </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

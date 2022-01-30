@@ -1,0 +1,87 @@
+{% extends 'dashboard/base.html' %}
+{% load staticfiles %}
+{% block title %} Smart𝞹 - Warehouse {% endblock %}
+{% block headers %}
+
+{% endblock %}
+{% block page_content %}
+  <div class="row">
+    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+      <!--<h3> Merchandises </h3><br>-->
+      <div class="row">
+        <a href="{% url 'warehouse_app:warehouse-add' %}"  class="btn btn-success btn-md"><i class="fa fa-plus"></i> Add Warehouse</a>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="whAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <script>
+          $('#whAdd').on('show.bs.modal', function (event) {
+          var modal = $(this)
+          $.ajax({
+          url: "{% url 'warehouse_app:warehouse-add' %}",
+          context: document.body
+          }).done(function(response) {
+          modal.html(response);
+          });
+          })
+      </script>
+
+      <!--/modal-->
+      <div class="x_content">
+
+        <div class="row">
+
+          <p>All warehouses</p>
+          {% for warehouse in warehouses  %}
+
+          <div class="col-md-55">
+            <div class="thumbnail">
+              <div class="image view view-first">
+                <img style="width: 100%; display: block;" src="{{ warehouse.wh_pic.url }}"  />
+                <div class="mask">
+                  <p>{{warehouse.name}}</p>
+                  <div class="tools tools-bottom">
+                    <a class="btn-info" href="{% url 'warehouse_app:detail' warehouse.id %}"><i class="fa fa-eye"></i></a>
+                    <a class="btn-success" href="{% url 'warehouse_app:warehouse-update' warehouse.id %}"><i class="fa fa-pencil"></i></a>
+                    <form style="display:inline;" action="{% url 'warehouse_app:warehouse-delete' warehouse.id %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="warehouse_id" value="{{ warehouse.id}}">
+                      <button type="submit" class="del btn-danger" ><i class="fa fa-times"></i></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="caption">
+                <p>{{ warehouse.description}}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+{% endblock %}
+{% block scripts %}
+
+  <script>
+
+  </script>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'dashboard/base.html' %}
+{% block page_content %}
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <ul class="nav nav-pills" style="margin-bottom: 20px;">
+      <li role="presentation" class="active"><a href="{% url 'position_app:service' %}">View All</a></li>
+      <li role="presentation"><a href="{% url 'position_app:service-add' %}">Add New Service</a></li>
+  </ul>
+    <div class="table-responsive">
+                  <table class=" table table-striped table-hover">
+
+                    <thead  >
+                    <th > # </th >
+                    <th > type </th >
+                    <th >label  </th >
+                    <th > value  </th >
+                    <th > position  </th >
+
+
+                    </thead >
+                      {% for service in all_service %}
+                      <tr >
+                      <td > {{ service.id }} </td >
+                      <td > {{ service.s_type }} </td >
+                      <td > {{ service.label }} </td >
+                      <td > {{ service.value }} </td >
+                      <td > {{ service.position }} </td >
+
+                      <td>
+
+                      <!-- View Details -->
+                      <a href="#" class="btn btn-primary btn-xs" role="button"  >View Details</a>
+
+                      <!-- Edit Vehicle -->
+
+                      <a href="{% url 'position_app:service-update' service.id %}"  style="display: inline;">
+
+                          <input type="hidden" name="service_id" value="{{ service.id }}" />
+                          <button type="submit" class="btn btn-success btn-xs">
+                              <span class="glyphicon glyphicon-pencil"></span>
+                          </button>
+                      </a>
+
+                      <!-- Delete member  -->
+                      <form action="{% url 'position_app:service-delete' service.id %}" method="post"  style="display: inline;">
+                          {% csrf_token %}
+                          <input type="hidden" name="service_id" value="{{ service.id }}" />
+                          <button type="submit" class="btn btn-danger btn-xs">
+                              <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                      </form>
+                    </td>
+                  </tr>
+  {% endfor %}
+                </table>
+     </div>
+
+     </div>
+
+
+
+
+{% endblock %}

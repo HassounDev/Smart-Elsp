@@ -1,0 +1,62 @@
+{% extends 'dashboard/base.html' %}
+{% block page_content %}
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <ul class="nav nav-pills" style="margin-bottom: 20px;">
+      <li role="presentation" class="active"><a href="{% url 'position_app:member' %}">View All</a></li>
+      <li role="presentation"><a href="{% url 'position_app:member-add' %}">Add New Member</a></li>
+  </ul>
+    <div class="table-responsive">
+                  <table class=" table table-striped table-hover">
+
+                    <thead  >
+                    <th > # </th >
+                    <th > type </th >
+                    <th >tele  </th >
+                    <th > email  </th >
+                    <th > fax  </th >
+
+
+                    </thead >
+                      {% for member in all_member %}
+                      <tr >
+                      <td > {{ member.id }} </td >
+                      <td > {{ member.m_type }} </td >
+                      <td > {{ member.tele }} </td >
+                      <td > {{ member.email }} </td >
+                      <td > {{ member.fax }} </td >
+
+                      <td>
+
+                      <!-- View Details -->
+                      <a href="#" class="btn btn-primary btn-xs" role="button"  >View Details</a>
+
+                      <!-- Edit Vehicle -->
+
+                      <a href="{% url 'position_app:member-update' member.id %}"  style="display: inline;">
+
+                          <input type="hidden" name="pmember_id" value="{{ member.id }}" />
+                          <button type="submit" class="btn btn-success btn-xs">
+                              <span class="glyphicon glyphicon-pencil"></span>
+                          </button>
+                      </a>
+
+                      <!-- Delete member  -->
+                      <form action="{% url 'position_app:member-delete' member.id %}" method="post"  style="display: inline;">
+                          {% csrf_token %}
+                          <input type="hidden" name="member_id" value="{{ member.id }}" />
+                          <button type="submit" class="btn btn-danger btn-xs">
+                              <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                      </form>
+                    </td>
+                  </tr>
+  {% endfor %}
+                </table>
+     </div>
+
+     </div>
+
+
+
+{% endblock %}

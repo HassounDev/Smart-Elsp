@@ -1,0 +1,11 @@
+body{
+  /*background: url('images/bg.jpg')*/
+}
+
+.navbar-brand{
+    font-family: 'Pacifico', cursive;
+}
+
+.navbar {
+  border-radius: 0;
+}

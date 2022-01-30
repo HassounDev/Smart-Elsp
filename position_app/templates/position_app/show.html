@@ -1,0 +1,89 @@
+{% extends 'dashboard/base.html' %}
+
+{% block page_content %}
+<div class="x_panel">
+  <div class="x_content">
+    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+      <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Display Merchandise</a>
+        </li>
+          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Simulation</a>
+        </li>
+        <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Display</a>
+        </li>
+      </ul>
+      <div  id="myTabContent" class="tab-content">
+
+
+        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+          <div class="form-group col-md-12">
+            <label for="exampleSelect1">Select Merchandise</label>
+            <select class="form-control" id="start" >
+              {% for m in merchandises  %}
+              <option value="">----- </option>
+              <option id="merch" value="{{ m.latitude }},{{ m.longitude}}">{{ m.designation}} </option>
+                 {% endfor %}
+            </select>
+          </div>
+          <div style="width:100%;height:500px;display:none;"id="map1"></div>
+            <script>
+            var elem = document.getElementById("start");
+            elem.onchange = function(){
+                var hiddenDiv = document.getElementById("map1");
+                hiddenDiv.style.display = (this.value == "") ? "none":"block";
+            };
+               // This example displays a marker at the center of Australia.
+               // When the user clicks the marker, an info window opens.
+
+               function initMap() {
+                 var merch_lat = parseFloat(document.getElementById('merch').value.split(',')[0]);
+                 var merch_lng = parseFloat(document.getElementById('merch').value.split(',')[1]);
+                 var uluru = {lat: merch_lat, lng: merch_lng};
+                 var map = new google.maps.Map(document.getElementById('map1'), {
+                   zoom: 4,
+                   center: uluru
+                 });
+
+                 var contentString = '<div id="content">'+
+                     '<div id="siteNotice">'+
+                     '</div>'+
+                     '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+                     '</div>';
+
+                 var infowindow = new google.maps.InfoWindow({
+                   content: contentString
+                 });
+
+                 var marker = new google.maps.Marker({
+                   position: uluru,
+                   map: map,
+                   title: 'Uluru (Ayers Rock)'
+                 });
+                 marker.addListener('click', function() {
+                   infowindow.open(map, marker);
+                 });
+               }
+             </script>
+             <script async defer
+             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkStiPXNcQcXflauBO07T4edPd1YR1s-I&callback=initMap">
+             </script>
+        </div>
+              <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                <button onclick="drawPath();" class="btn btn-success"> Run Simulation </button>
+
+              <div id="mynetwork"></div>
+              <input type="hidden" id="volumeDepart" value="0">
+              <input type="hidden" id="volumeDown" value="0">
+              <input type="hidden" id="volumeUp" value="0">
+              <input type="hidden" id="volumeArrive" value="0">
+              <!--<pre id="eventSpan"></pre>-->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock %}

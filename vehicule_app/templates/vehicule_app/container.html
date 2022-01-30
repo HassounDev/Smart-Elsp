@@ -1,0 +1,125 @@
+{% extends 'dashboard/base.html' %}
+{% block page_content %}
+
+<ul class="nav nav-pills" style="margin-bottom: 20px;">
+    <li role="presentation" class="active"><a href="#">View All</a></li>
+    <li role="presentation"><a href="{% url 'vehicule_app:container-addo' %}">Add New Container</a></li>
+</ul>
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+  <div class="row">
+
+  <div class="albums-container container-fluid">
+
+      <!-- Vehicles -->
+
+    {% for container in all_containers %}
+
+              <div class="col-sm-4 col-lg-4 col-md-4">
+                  <div class="thumbnail">
+                    <div class="image" style="height:200px;">
+
+
+                    <a href="#">
+                        <img src="{{ container.container_logo.url }}" style="height:100%;width:100%;display:block;" />
+                    </a>
+                    </div>
+                    <div class="caption" style="text-align:center">
+
+                      <!--h2>{{ container.container_ref }}</h2-->
+                      <h4>{{ container.registration }}</h4>
+                      <h4>{{ container.container_type }}</h4>
+                      <!-- View Details -->
+                      <a href="#{{container.id}}" class="btn btn-primary btn-sm" role="button" data-toggle="modal" >View Details</a>
+
+                      <!-- Edit Vehicle  -->
+
+                      <a href=""  style="display: inline;">
+                          {% csrf_token %}
+                          <input type="hidden" name="vihecle_id" value="{{ container.id }}" />
+                          <button type="submit" class="btn btn-success btn-sm">
+                              <span class="glyphicon glyphicon-pencil"></span>
+                          </button>
+                      </a>
+
+                      <!-- Delete Vehicle -->
+                      <form action="#" method="post" style="display: inline;">
+                          {% csrf_token %}
+                          <input type="hidden" name="vihecle_id" value="{{ vihecle.id }}" />
+                          <button type="submit" class="btn btn-danger btn-sm del">
+                              <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                      </form>
+
+                    </CENTER>
+
+                    </div>
+
+                  </div>
+
+     </div>
+
+        <!-- Modal content-->
+     <div id="{{container.id}}" class="modal fade" role="dialog">
+       <div class="modal-dialog ">
+
+
+         <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+             <h4 class="modal-title">Container Details</h4>
+           </div>
+           <div class="modal-body">
+             <div class="list-group">
+
+                 <button type="button" class="list-group-item list-group-item-action h4 active">ref : {{ container.container_ref }} </button>
+                 <button type="button" class="list-group-item list-group-item-action h4">registration : {{ container.registration }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">container_type : {{ container.container_type }} </button>
+                 <button type="button" class="list-group-item list-group-item-action h4">container_sub_type : {{ container.container_sub_type }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">volume : {{ container.volume }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">free surface : {{ container.free_surface }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">external height  : {{ container.height_ex }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">external width : {{ container.width_ex }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">external length : {{ container.length_ex }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">internal height : {{ container.height_in }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">internal width : {{ container.width_in }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">internal length : {{ container.length_in }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">weight : {{ container.weight }}</button>
+                 <button type="button" class="list-group-item list-group-item-action h4">function : {{ container.function }}</button>
+
+            </div>
+
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+           </div>
+         </div>
+
+       </div>
+     </div>
+  {% endfor %}
+
+  </div>  </div>
+
+
+  {% endblock %}
+
+  {% block javascript %}
+
+
+<script>
+$('.del').on('click', function(e) {
+var $form = $(this).closest('form');
+e.preventDefault();
+$('#confirmModal').modal({
+backdrop: 'static',
+keyboard: false
+})
+.one('click', '#delete', function(e) {
+$form.trigger('submit');
+});
+});
+  </script>
+  {% endblock %}

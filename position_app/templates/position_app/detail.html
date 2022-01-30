@@ -1,0 +1,251 @@
+{% extends 'dashboard/base.html' %}
+{% block page_content %}
+
+<div class="col-xs-12">
+
+
+    <div class="row">
+
+      <!-- Left Coordone Info -->
+      <div class="col-sm-4 col-md-3" >
+          <div class="panel panel-default">
+              <div class="panel-body">
+
+<div id="map" style="width: 205px; height: 235px" onLoad="loadMap()"></div>
+
+
+
+                  <h1> <small></small></h1>
+                  <h2></h2>
+              </div>
+          </div>
+      </div>
+
+      <!-- Right container Info -->
+      <div class="col-sm-8 col-md-9">
+
+
+        <div class="x_panel">
+          <div class="x_title">
+            <a class="btn btn-default glyphicon glyphicon-plus" href="{% url 'position_app:digcord-add' %}">Add New  digital coordonne</a>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a href="#" class="collapse-link"><i class="glyphicon glyphicon-plus"></i></a>
+              </li>
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+
+<div class="x_content">
+
+
+
+                  {% if error_message %}
+                      <p><strong>{{ error_message }}</strong></p>
+                  {% endif %}
+                  <div class="table-responsive" >
+
+                  <table class="table">
+                      <thead>
+                      <tr>
+                          <th>type</th>
+                          <th>value</th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+
+
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for digital in coordonne.coordnum_set.all %}
+                          <tr>
+                              <td>{{ digital.cor_type }}</td>
+                              <td>{{ digital.value }}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>
+
+                                  <a href="{% url 'position_app:digcord-update' digital.id %}" style="display: inline;">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="digital_id" value="{{ digital.id }}" />
+                                      <button type="submit" class="btn btn-success btn-xs">
+                                          <span class="glyphicon glyphicon-edit"></span>&nbsp; Edit
+                                      </button>
+                                  </a>
+
+                                  <form action="{% url 'position_app:digcord-delete' digital.id %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                      <input type="hidden" name="digital_id" value="{{ digital.id }}" />
+                                      <button type="submit" class="btn btn-danger btn-xs">
+                                          <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                      </button>
+                                  </form>
+                              </td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+            </div>  </div>
+        </div>
+
+          <div class="x_panel">
+            <div class="x_title">
+              <a class="btn btn-default glyphicon glyphicon-plus"  href="{% url 'position_app:percontact-add' %}">Add New  Contact</a>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="glyphicon glyphicon-plus"></i></a>
+                </li>
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+  <div class="x_content">
+
+
+              {% if error_message %}
+                  <p><strong>{{ error_message }}</strong></p>
+              {% endif %}
+              <div class="table-responsive" >
+              <table class="table">
+                  <thead>
+                  <tr>
+                      <th>greeting</th>
+                      <th>nom </th>
+                      <th>function</th>
+                      <th>fixe number</th>
+                      <th>phone number</th>
+                      <th>email</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for contact in coordonne.percontact_set.all %}
+                      <tr>
+                          <td>{{ contact.salutation }}</td>
+                          <td>{{ contact.nom }}</td>
+                          <td>{{ contact.fonction }}</td>
+                          <td>{{ contact.telefixe }}</td>
+                          <td>{{ contact.telegsm }}</td>
+                          <td>{{ contact.email }}</td>
+
+
+                          <td>
+
+                              <a href="{% url 'position_app:percontact-update' contact.id %}" style="display: inline;">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="contact_id" value="{{ contact.id }}" />
+                                  <button type="submit" class="btn btn-success btn-xs">
+                                      <span class="glyphicon glyphicon-edit"></span>&nbsp; Edit
+                                  </button>
+                              </a>
+
+                              <form action="{% url 'position_app:percontact-delete' contact.id %}" method="post"  style="display: inline;">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="contact_id" value="{{ contact.id }}" />
+                                  <button type="submit" class="btn btn-danger btn-xs">
+                                      <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                  </button>
+                              </form>
+                          </td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+            </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+  {% block javascript %}
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ GOOGLE_KEY }}" type="text/javascript"></script>
+<script type="text/javascript">
+function loadMap(){
+
+
+
+var companies = '{{ coordonne.longitude|escapejs }}';
+var companie = '{{ coordonne.latitude|escapejs }}';
+var map = new GMap2(document.getElementById("map"));
+map.addControl(new GLargeMapControl());
+map.addControl(new GMapTypeControl());
+//set map center (vienna)
+map.setCenter(new GLatLng(companie, companies), 12);
+GEvent.addListener(map, "click", function(overlay, point){
+map.clearOverlays();
+if (point) {
+map.addOverlay(new GMarker(point));
+map.panTo(point);
+
+}
+});
+}
+// arrange for our onload handler to 'listen' for onload events
+if (window.attachEvent) {
+window.attachEvent("onload", function() {
+loadMap();  // Internet Explorer
+});
+} else {
+window.addEventListener("load", function() {
+loadMap(); // Firefox and standard browsers
+}, false);
+}
+</script>
+  {% endblock %}

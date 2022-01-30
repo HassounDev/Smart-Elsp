@@ -1,0 +1,46 @@
+{% extends 'dashboard/base.html' %}
+{% block page_content %}
+
+  <!--div class="albums-container container-fluid"-->
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <ul class="nav nav-pills" style="margin-bottom: 20px;">
+      <li role="presentation" class="active"><a href="#">View All</a></li>
+      <li role="presentation"><a href="{% url 'position_app:coord-add' %}">Add New Coordonne</a></li>
+  </ul>
+    <div class="table-responsive">
+                  <table class=" table table-striped table-hover" >
+
+                    <thead  >
+                    <th > # </th >
+                    <th > # </th >
+                    <!--th > nature </th >
+                    <th >adresse  </th >
+                    <th > country  </th >
+                    <th > city  </th >
+                    <th >area  </th >
+                    <th >Postal code </th >
+                    <th >longitude  </th >
+                    <th >latitude  </th >
+                    <th > </th -->
+
+                    </thead >
+                      {% for coordonne in coordonnes %}
+                      <tr >
+                      <!--td > {{ coordonne.id }} </td >
+                      <td > {{ coordonne.nature }} </td >
+                      <td > {{ coordonne.adresse }} </td >
+                      <td > {{ coordonne.country }} </td >
+                      <td > {{ coordonne.city }} </td >
+                      <td > {{ coordonne.area }} </td >
+                      <td > {{ coordonne.postal_code }} </td -->
+                      <td > {{ coordonne.longitude }} </td >
+                      <td > {{ coordonne.latitude }} </td >
+
+                  </tr>
+                    {% endfor %}
+                </table>
+       </div>
+</div>
+
+
+     {% endblock %}
